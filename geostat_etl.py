@@ -13,16 +13,8 @@ print("მონაცემების ჩამოტვირთვა...")
 response = requests.get(url, timeout=20)
 response.raise_for_status()
 
-# .xlsx ფაილია — read_excel გამოიყენება, არა read_csv
-df = pd.read_excel(io.BytesIO(response.content), header=2)
-
-# პირველი სვეტის სახელი → 'year'
-df.rename(columns={df.columns[0]: "year"}, inplace=True)
-
-# ცარიელი სტრიქონების გაწმენდა
-df.dropna(how="all", inplace=True)
-
-print(df.head())
+excel_file = pd.ExcelFile(io.BytesIO(response.content))
+print(f"Sheet-ები: {excel_file.sheet_names}")
 
 # 2. მონაცემთა ბაზასთან კავშირი (.env-დან)
 DATABASE_URL = (
@@ -32,7 +24,15 @@ DATABASE_URL = (
 )
 engine = create_engine(DATABASE_URL)
 
-# 3. ბაზაში ჩატვირთვა
-print("Loading data to PostgreSQL...")
-df.to_sql("test_inflation", engine, if_exists="replace", index=False)
-print("მონაცემები წარმატებით ჩაიწერა ბაზაში!")
+# 3. ყველა sheet-ი ბაზაში ჩატვირთვა
+for i, sheet in enumerate(excel_file.sheet_names, start=1):
+    df = pd.read_excel(excel_file, sheet_name=sheet, header=2)
+    df.rename(columns={df.columns[0]: "year"}, inplace=True)
+    df.dropna(how="all", inplace=True)
+    df["city"] = sheet  # ქალაქის სახელი სვეტად
+
+    table_name = f"test_inflation_{i}"
+    df.to_sql(table_name, engine, if_exists="replace", index=False)
+    print(f"{i}. '{sheet}' → '{table_name}' ({len(df)} სტრიქონი)")
+
+print("ყველა მონაცემი წარმატებით ჩაიწერა ბაზაში!")
