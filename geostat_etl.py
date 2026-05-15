@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 load_dotenv()
 
 # 1. მონაცემების ჩამოტვირთვა
-url = "https://geostat.ge/media/78621/samomxmareblo-fasebis-indeqsebi-2010-wlis-sashualo%3D100.xlsx"
+url = os.getenv("TEST_URL")
 print("მონაცემების ჩამოტვირთვა...")
 response = requests.get(url, timeout=20)
 response.raise_for_status()
