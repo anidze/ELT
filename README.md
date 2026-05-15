@@ -1,8 +1,8 @@
 # Crypto ETL Pipeline
 
-ეს არის მონაცემთა დამუშავების პროექტი, რომელიც იღებს კრიპტოვალუტის მონაცემებს (BTC) API-დან, ამუშავებს Pandas-ით და ინახავს PostgreSQL ბაზაში.
+A data processing project that fetches cryptocurrency data (BTC) from an API, processes it with Pandas, and stores it in a PostgreSQL database.
 
-## გამოყენებული ტექნოლოგიები
+## Tech Stack
 
 - Python
 - Pandas
@@ -10,32 +10,32 @@
 - SQLAlchemy
 - yfinance
 
-## კონფიგურაცია
+## Configuration
 
-1. დააკოპირეთ `.env.example` → `.env` და შეავსეთ თქვენი მნიშვნელობები:
+1. Copy `.env.example` → `.env` and fill in your values:
 
 ```bash
 cp .env.example .env
 ```
 
-2. `.env` ფაილი **არ იტვირთება Git-ში** (`.gitignore`-ში შეტანილია).
+2. The `.env` file is **excluded from Git** (listed in `.gitignore`) — credentials are never committed.
 
-## როგორ გავუშვათ
+## How to Run
 
-1. დააინსტალირეთ [Docker Desktop](https://www.docker.com/products/docker-desktop).
-2. გაუშვით მონაცემთა ბაზა:
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop).
+2. Start the database:
 
 ```bash
 docker-compose up -d
 ```
 
-3. დააინსტალირეთ ბიბლიოთეკები:
+3. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. გაუშვით სკრიპტი:
+4. Run the script:
 
 ```bash
 python load_data.py
