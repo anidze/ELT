@@ -18,7 +18,7 @@ engine = create_engine(DATABASE_URL)
 
 @app.get("/inflation")
 def get_inflation_data():
-    df = pd.read_sql("SELECT * FROM geostat_inflation", engine)
+    df = pd.read_sql("SELECT * FROM test_inflation", engine)
     # NaN → None, რომ JSON-ით გადაიცეს
     df = df.where(pd.notna(df), other=None)
     return df.to_dict(orient="records")

@@ -33,6 +33,6 @@ DATABASE_URL = (
 engine = create_engine(DATABASE_URL)
 
 # 3. ბაზაში ჩატვირთვა
-print("Loading Geostat data to PostgreSQL...")
-df.to_sql("geostat_inflation", engine, if_exists="replace", index=False)
+print("Loading data to PostgreSQL...")
+df.to_sql("test_inflation", engine, if_exists="replace", index=False)
 print("მონაცემები წარმატებით ჩაიწერა ბაზაში!")

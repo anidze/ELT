@@ -11,9 +11,9 @@ engine = create_engine(
     f"@localhost:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DB')}"
 )
 
-df = pd.read_sql("SELECT * FROM geostat_inflation ORDER BY year", engine)
+df = pd.read_sql("SELECT * FROM test_inflation ORDER BY year", engine)
 
-output = "geostat_view.html"
+output = "test_view.html"
 df.to_html(output, index=False)
 webbrowser.open(output)
 print(f"ბრაუზერში გაიხსნა: {output}")
